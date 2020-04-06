@@ -4,10 +4,6 @@ import Food from './Food';
 import Score from './Score';
 import Gameover from './Gameover';
 
-// Bootstrap
-import { Button } from 'reactstrap';
-
-
 const getRandomCoords = () => {
   const [min, max] = [1, 97];
   // Reference: https://gist.github.com/kerimdzhanov/7529623
