@@ -4,6 +4,7 @@ import Food from './Food';
 import Score from './Score';
 import Gameover from './Gameover';
 
+
 const getRandomCoords = () => {
   const [min, max] = [1, 97];
   // Reference: https://gist.github.com/kerimdzhanov/7529623
@@ -18,9 +19,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      start: false,
-      // Snake speed is in Milliseconds (ms).
-      snakeSpeed: 100,
+      newbie: false,
+      intermediate: false,
+      expert: false,
       // Hardcoded positions of the snake-modules on init.
       snakeCoordinates: [ [50,0], [50,3], [50,6] ],
       direction: 'Down',
@@ -29,9 +30,19 @@ class App extends React.Component {
     }
   }
 
-  startGame = () => {
-    this.setState({ start: true });
-    setInterval(this.moveSnake,this.state.snakeSpeed);
+  startNewbie = () => {
+    this.setState({ newBie: true});
+    setInterval(this.moveSnake,300);
+  }
+
+  startIntermediate = () => {
+    this.setState({ intermediate: true});
+    setInterval(this.moveSnake, 80);
+  }
+
+  startExpert = () => {
+    this.setState({ expert: true});
+    setInterval(this.moveSnake,30);
   }
 
   // REACT LIFECYCLE METHODS
@@ -139,6 +150,9 @@ class App extends React.Component {
     alert(`Game Over. Your Score is ${this.state.score}`);
     // Reset the snake coords
     this.setState({
+      newbie: false,
+      intermediate: false,
+      expert: false,
       // Snake speed is in Milliseconds (ms).
       snakeSpeed: 100,
       // Hardcoded positions of the snake-modules on init.
@@ -153,12 +167,17 @@ class App extends React.Component {
     return (
         <React.Fragment>
           <h1 className="main-title">{ this.props.title }</h1>
-          <button className="play-button" onClick={this.startGame}>Play</button>
+          <div className="button-group">
+            <p>Click on the buttons below to start the game.</p>
+            <button className="play-button" onClick={this.startNewbie}>Newbie</button>
+            <button className="play-button" onClick={this.startIntermediate}>Intermediate</button>
+            <button className="play-button" onClick={this.startExpert}>Expert</button>
+          </div>
+          <Score score={this.state.score}/>
           <div className="game-window">
             <Snake snakeCoordinates={ this.state.snakeCoordinates }/>
             <Food foodCoordinates={ this.state.foodCoordinates }/>
           </div>
-          <Score score={this.state.score}/>
         </React.Fragment>
     )
   }
