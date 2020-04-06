@@ -143,7 +143,8 @@ class App extends React.Component {
       // Hardcoded positions of the snake-modules on init.
       snakeCoordinates: [ [50,0], [50,3], [50,6] ],
       direction: 'Down',
-      foodCoordinates: getRandomCoords()
+      foodCoordinates: getRandomCoords(),
+      score: 0
     });
   }
 
