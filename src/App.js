@@ -5,7 +5,7 @@ import Score from './Score';
 import Gameover from './Gameover';
 
 // Bootstrap
-// import { Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 
 const getRandomCoords = () => {
@@ -22,6 +22,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      start: false,
       // Snake speed is in Milliseconds (ms).
       snakeSpeed: 100,
       // Hardcoded positions of the snake-modules on init.
@@ -32,11 +33,15 @@ class App extends React.Component {
     }
   }
 
+  startGame = () => {
+    this.setState({ start: true });
+    setInterval(this.moveSnake,this.state.snakeSpeed);
+  }
+
   // REACT LIFECYCLE METHODS
 
   // Call on Init
   componentDidMount = () => {
-    setInterval(this.moveSnake,this.state.snakeSpeed);
     document.addEventListener("keydown", this._handleKeyDown);
   }
 
@@ -152,6 +157,7 @@ class App extends React.Component {
     return (
         <React.Fragment>
           <h1 className="main-title">{ this.props.title }</h1>
+          <button className="play-button" onClick={this.startGame}>Play</button>
           <div className="game-window">
             <Snake snakeCoordinates={ this.state.snakeCoordinates }/>
             <Food foodCoordinates={ this.state.foodCoordinates }/>
