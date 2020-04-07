@@ -3,6 +3,7 @@ import Snake from './Snake';
 import Food from './Food';
 import Score from './Score';
 import Gameover from './Gameover';
+import LevelButton from './LevelButton';
 
 
 const getRandomCoords = () => {
@@ -30,20 +31,7 @@ class App extends React.Component {
     }
   }
 
-  startNewbie = () => {
-    this.setState({ newBie: true});
-    setInterval(this.moveSnake,300);
-  }
-
-  startIntermediate = () => {
-    this.setState({ intermediate: true});
-    setInterval(this.moveSnake, 80);
-  }
-
-  startExpert = () => {
-    this.setState({ expert: true});
-    setInterval(this.moveSnake,30);
-  }
+  
 
   // REACT LIFECYCLE METHODS
 
@@ -167,12 +155,7 @@ class App extends React.Component {
     return (
         <React.Fragment>
           <h1 className="main-title">{ this.props.title }</h1>
-          <div className="button-group">
-            <p>Click on the buttons below to start the game.</p>
-            <button className="play-button" onClick={this.startNewbie}>Newbie</button>
-            <button className="play-button" onClick={this.startIntermediate}>Intermediate</button>
-            <button className="play-button" onClick={this.startExpert}>Expert</button>
-          </div>
+          <LevelButton newBie={ this.state.newbie } intermediate={ this.state.intermediate } expert={ this.expert } moveSnake={ this.moveSnake }/>
           <Score score={this.state.score}/>
           <div className="game-window">
             <Snake snakeCoordinates={ this.state.snakeCoordinates }/>
