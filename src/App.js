@@ -4,16 +4,7 @@ import Food from './Food';
 import Score from './Score';
 import Gameover from './Gameover';
 import LevelButton from './LevelButton';
-
-
-const getRandomCoords = () => {
-  const [min, max] = [1, 97];
-  // Reference: https://gist.github.com/kerimdzhanov/7529623
-  const xCord = Math.round((Math.random() * (max - min) + min)/2) * 2;
-  const yCord = Math.round((Math.random() * (max - min) + min)/2) * 2;
-  return [xCord, yCord]
-}
-
+import { getRandomCoords } from './utils';
 
 class App extends React.Component {
 
@@ -30,10 +21,6 @@ class App extends React.Component {
       score: 0
     }
   }
-
-  
-
-  // REACT LIFECYCLE METHODS
 
   // Call on Init
   componentDidMount = () => {
@@ -66,7 +53,6 @@ class App extends React.Component {
     }
   }
 
-
   moveSnake = () => {
     const snakeCoords = [...this.state.snakeCoordinates];
     // Taking the last element as head
@@ -91,7 +77,7 @@ class App extends React.Component {
   }
 
 
-  // Conditions for Game Over
+// Conditions for Game Over
   snakeCrossBoundaries = () => {
     const snakeCoords = [...this.state.snakeCoordinates];
     let head = snakeCoords[snakeCoords.length - 1];
@@ -155,7 +141,7 @@ class App extends React.Component {
     return (
         <React.Fragment>
           <h1 className="main-title">{ this.props.title }</h1>
-          <LevelButton newBie={ this.state.newbie } intermediate={ this.state.intermediate } expert={ this.expert } moveSnake={ this.moveSnake }/>
+          <LevelButton newBie={ this.state.newbie } intermediate={ this.state.intermediate } expert={ this.state.expert } moveSnake={ this.moveSnake }/>
           <Score score={this.state.score}/>
           <div className="game-window">
             <Snake snakeCoordinates={ this.state.snakeCoordinates }/>
