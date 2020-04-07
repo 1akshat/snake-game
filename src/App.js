@@ -1,10 +1,10 @@
 import React from 'react';
-import Snake from './Snake';
-import Food from './Food';
-import Score from './Score';
-import Gameover from './Gameover';
-import LevelButton from './LevelButton';
-import { getRandomCoords } from './utils';
+import Snake from './Components/Snake';
+import Food from './Components/Food';
+import Score from './Components/Score';
+import Gameover from './Components/Gameover';
+import LevelButton from './Components/LevelButton';
+import { getRandomCoords } from './Utils/utils';
 
 class App extends React.Component {
 
