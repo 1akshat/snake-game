@@ -5,6 +5,7 @@ const randomString = () => {
 
 const webSocket = new WebSocket("ws://localhost:8080/");
 const user = { id: randomString() };
+document.getElementById('userId').textContent = user.id;
 
 webSocket.onopen = () => {
     // user is registered to back-end server
@@ -13,7 +14,13 @@ webSocket.onopen = () => {
 
     webSocket.addEventListener('message', (message) => {
         // message.data will be used to recieve user objects
-        console.log(message);
+        const usersData = JSON.parse(message.data);
+
+        if (Array.isArray(usersData)) {
+            const filteredDataForThisPage = usersData.filter(user => userPartners.indexOf(user.id) >= 0);
+            console.log(filteredDataForThisPage);
+        }
+
 
         /* If message.data user matches with userPartners, then next steps of updating UI as per info recieved happens */
     });
