@@ -9,6 +9,7 @@ const user = { id: randomString() };
 webSocket.onopen = () => {
     // user is registered to back-end server
     webSocket.send(JSON.stringify(user));
+    sendMouseHover(webSocket);
 
     webSocket.addEventListener('message', (message) => {
         // message.data will be used to recieve user objects
@@ -17,6 +18,14 @@ webSocket.onopen = () => {
         /* If message.data user matches with userPartners, then next steps of updating UI as per info recieved happens */
     });
 };
+
+const sendMouseHover = (webSocket) => {
+    document.addEventListener('mouseover', (event) => {
+        user.clientX = event.clientX;
+        user.clientY = event.clientY;
+        webSocket.send(JSON.stringify(user));
+    })
+}
 
 const connect = () => {
     const input = document.getElementById('userIdToConnect');
