@@ -140,6 +140,7 @@ class PlayGame extends React.Component {
     return (
       <React.Fragment>
         <h1 className="main-title">{this.props.title}</h1>
+        <p>Player Name: {this.props.name}</p>
         <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
         <Score score={this.state.score} />
         <div className="game-window">
