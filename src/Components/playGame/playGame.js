@@ -4,6 +4,7 @@ import Food from '../food/food';
 import Score from '../score/score';
 import LevelButton from '../levelButton/levelButton';
 import { getRandomCoords } from '../../utils/utils';
+import './style.css';
 
 class PlayGame extends React.Component {
 
@@ -136,19 +137,61 @@ class PlayGame extends React.Component {
     });
   }
 
+  renderRow(props) {
+    return (
+      <tr>
+        <td>{props.id}</td>
+        <td>{props.name}</td>
+      </tr>
+    );
+  }
+
   render() {
     return (
-      <React.Fragment>
-        <h1 className="main-title">{this.props.title}</h1>
-        <p>Player Name: {this.props.name}</p>
-        <p>Player Game ID: {this.props.uuid}</p>
-        <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
-        <Score score={this.state.score} />
-        <div className="game-window">
-          <Snake snakeCoordinates={this.state.snakeCoordinates} />
-          <Food foodCoordinates={this.state.foodCoordinates} />
+      <>
+        <div className="row">
+          <div className="col-md-10">
+            <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
+            <Score score={this.state.score} />
+            <div className="game-window">
+              <Snake snakeCoordinates={this.state.snakeCoordinates} />
+              <Food foodCoordinates={this.state.foodCoordinates} />
+            </div>
+          </div>
+          <h1 className="main-title">{this.props.title}</h1>
+
+          {/* LEADERBOARD */}
+          <div className="col-md-2">
+            <div className="leaderboard-wrapper">
+              <div className="para-wrapper">
+                <p className="custom-padding">Player Name: <strong>{this.props.name}</strong></p>
+                <p className="custom-padding">Game ID: <strong>{this.props.uuid}</strong></p>
+                <p className="custom-padding"><strong>LEADERBOARD</strong></p>
+              </div>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th style={{ height: '50px' }}>ID</th>
+                    <th style={{ height: '50px' }}>Name</th>
+                    <th style={{ height: '50px' }}>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.props.players.map(obj => {
+                    return (
+                      <tr>
+                        <td>{obj.id}</td>
+                        <td>{obj.name}</td>
+                        <td>{}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </React.Fragment>
+      </>
     )
   }
 }
