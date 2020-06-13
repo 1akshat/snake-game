@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { Card, Button, Form } from 'react-bootstrap';
 import PlayGame from '../playGame/playGame';
-import UUID from '../../utils/uuid';
+import { randomNumber } from '../../utils/number';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
 
 const StartGame = () => {
@@ -14,7 +14,7 @@ const StartGame = () => {
 
   const createSocketConnection = () => {
     const webSocket = new WebSocket(SERVER_URL);
-    const user = { id: UUID(), name: name };
+    const user = { id: randomNumber(6), name: name };
     webSocket.onopen = () => {
       // user is registered to back-end server
       webSocket.send(JSON.stringify(user));
