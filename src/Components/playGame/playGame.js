@@ -4,7 +4,10 @@ import Food from '../food/food';
 import Score from '../score/score';
 import LevelButton from '../levelButton/levelButton';
 import { getRandomCoords } from '../../utils/utils';
+import { SERVER_URL } from '../../utils/variables';
 import './style.css';
+
+const webSocket = new WebSocket(SERVER_URL);
 
 class PlayGame extends React.Component {
 
@@ -38,6 +41,7 @@ class PlayGame extends React.Component {
   componentWillUnmount = () => {
     document.removeEventListener("keydown", this._handleKeyDown);
     document.removeEventListener("click", this._handleButtonClick);
+
   }
 
   _handleKeyDown = (event) => {
@@ -55,10 +59,11 @@ class PlayGame extends React.Component {
 
   moveSnake = () => {
     const snakeCoords = [...this.state.snakeCoordinates];
+    console.log('Sending.... ', snakeCoords);
+    webSocket.send(JSON.stringify(snakeCoords));
     // Taking the last element as head
     let head = snakeCoords[snakeCoords.length - 1];
     const direction = this.state.direction;
-    console.log(direction);
 
     if (direction === 'Left') {
       head = [head[0] - 2, head[1]]
@@ -96,7 +101,6 @@ class PlayGame extends React.Component {
       }
     })
   }
-
 
   snakeEatFood = () => {
     const snakeCoords = [...this.state.snakeCoordinates];
@@ -152,7 +156,6 @@ class PlayGame extends React.Component {
         <div className="row">
           <div className="col-md-10">
             <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
-            <Score score={this.state.score} />
             <div className="game-window">
               <Snake snakeCoordinates={this.state.snakeCoordinates} />
               <Food foodCoordinates={this.state.foodCoordinates} />
@@ -166,14 +169,16 @@ class PlayGame extends React.Component {
               <div className="para-wrapper">
                 <p className="custom-padding">Player Name: <strong>{this.props.name}</strong></p>
                 <p className="custom-padding">Game ID: <strong>{this.props.uuid}</strong></p>
-                <p className="custom-padding"><strong>LEADERBOARD</strong></p>
+                <p className="custom-padding">
+                  <Score score={this.state.score} />
+                </p>
+                <p className="custom-padding"><span class="dot"></span><strong> ONLINE PLAYERS</strong></p>
               </div>
               <table className="table">
                 <thead>
                   <tr>
-                    <th style={{ height: '50px' }}>ID</th>
-                    <th style={{ height: '50px' }}>Name</th>
-                    <th style={{ height: '50px' }}>Score</th>
+                    <th>ID</th>
+                    <th>Name</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -182,7 +187,6 @@ class PlayGame extends React.Component {
                       <tr>
                         <td>{obj.id}</td>
                         <td>{obj.name}</td>
-                        <td>{}</td>
                       </tr>
                     );
                   })}

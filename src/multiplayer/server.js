@@ -8,6 +8,7 @@ const users = [];
 server.on('connection', (webSocket) => {
     console.log('New connection made...')
     webSocket.on('message', (message) => {
+        console.log('Received: ', message);
         const incomingUser = JSON.parse(message);
 
         const indexOfIncomingUser = users.findIndex(user => user.id === incomingUser.id);

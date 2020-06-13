@@ -54,6 +54,14 @@ body {
   border: 10px solid #000;
 }
 
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: rgb(40, 126, 1);
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .snake-module {
   height: 3%;
   width: 3%;
