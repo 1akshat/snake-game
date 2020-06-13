@@ -18,5 +18,10 @@ webSocket.onopen = () => {
     });
 };
 
+const connect = () => {
+    const input = document.getElementById('userIdToConnect');
+    userPartners.push(input.value);
+}
+
 // will be used to keep track of players, with whom current user is playing multiplayer game
 const userPartners = [];
