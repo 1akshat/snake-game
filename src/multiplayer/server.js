@@ -6,6 +6,7 @@ const server = new WS.Server({ port: 8080 });
 const users = [];
 
 server.on('connection', (webSocket) => {
+    console.log('New connection made...')
     webSocket.on('message', (message) => {
         const incomingUser = JSON.parse(message);
 
