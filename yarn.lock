@@ -3861,6 +3861,11 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+ecmascript-is-number@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ecmascript-is-number/-/ecmascript-is-number-1.1.2.tgz#de22431a439d8be2508c5876aad7f93a25c194ad"
+  integrity sha512-oPO4PXrQOWqDBmlmxxAYkeRil0hblFQDLOljLGGXGtW913Q8BLt1D0uOvI/G11jxNhaLiUfW9DdV8T3Ty8jXDw==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
