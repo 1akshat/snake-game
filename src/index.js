@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App title="The Snake Game"/>
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );

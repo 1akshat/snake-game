@@ -175,10 +175,10 @@ class PlayGame extends React.Component {
               <div className="para-wrapper">
                 <p className="custom-padding">Player Name: <strong>{this.props.name}</strong></p>
                 <p className="custom-padding">Game ID: <strong>{this.props.uuid}</strong></p>
-                <p className="custom-padding">
+                <div className="custom-padding">
                   <Score score={this.state.score} />
-                </p>
-                <p className="custom-padding"><span class="dot"></span><strong> ONLINE PLAYERS</strong></p>
+                </div>
+                <p className="custom-padding"><span className="dot"></span><strong> ONLINE PLAYERS</strong></p>
               </div>
               <table className="table">
                 <thead>
@@ -188,9 +188,9 @@ class PlayGame extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.players.map(obj => {
+                  {this.props.players.map((obj, key) => {
                     return (
-                      <tr>
+                      <tr key={key}>
                         <td>{obj.id}</td>
                         <td>{obj.name}</td>
                       </tr>

@@ -49,8 +49,7 @@ const StartGame = () => {
             <Card.Header className="cardHeader">The Snake Game</Card.Header>
             <Card.Body>
               <Card.Text>
-                <Form.Control type="text" placeholder="PLAYER NAME" style={{ width: '300px', textAlign: 'center', display: 'block', margin: '0 auto' }} onChange={handleChange} />
-                <hr />
+                <Form.Control type="text" placeholder="PLAYER NAME" style={{ width: '300px', textAlign: 'center', display: 'block', margin: '0 auto', marginBottom: '20px' }} onChange={handleChange} />
                 <Button variant="outline-primary" className="start-button" onClick={handleClick}>Play</Button>
               </Card.Text>
             </Card.Body>
