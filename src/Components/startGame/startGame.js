@@ -6,22 +6,24 @@ import PlayGame from '../playGame/playGame';
 import UUID from '../../utils/uuid';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
 
-const createSocketConnection = () => {
-  const webSocket = new WebSocket(SERVER_URL);
-  const user = { id: UUID() };
-  webSocket.onopen = () => {
-    // user is registered to back-end server
-    webSocket.send(JSON.stringify(user));
-    webSocket.addEventListener('message', (message) => {
-      // message.data will be used to recieve user objects
-      console.log(message);
-    });
-  };
-}
-
 const StartGame = () => {
   const [name, setName] = useState(null);
   const [click, setClick] = useState(false);
+  const [uuid, setUuid] = useState(null);
+
+  const createSocketConnection = () => {
+    const webSocket = new WebSocket(SERVER_URL);
+    const user = { id: UUID() };
+    webSocket.onopen = () => {
+      // user is registered to back-end server
+      webSocket.send(JSON.stringify(user));
+      webSocket.addEventListener('message', (message) => {
+        // message.data will be used to recieve user objects
+        console.log(message);
+        setUuid(user.id);
+      });
+    };
+  }
 
   const handleChange = (event) => {
     setName(event.target.value);
@@ -39,7 +41,7 @@ const StartGame = () => {
 
   return (
     <>
-      {click ? <PlayGame name={name} /> :
+      {click ? <PlayGame name={name} uuid={uuid} /> :
         <div className="container">
           <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
             <Card.Header className="cardHeader">The Snake Game</Card.Header>
