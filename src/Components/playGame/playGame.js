@@ -9,6 +9,12 @@ import './style.css';
 
 const webSocket = new WebSocket(SERVER_URL);
 
+webSocket.onopen = () => {
+  webSocket.addEventListener('message', (coordinates) => {
+    console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
+  });
+};
+
 class PlayGame extends React.Component {
 
   constructor(props) {
