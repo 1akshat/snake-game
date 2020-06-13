@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body>
+  <body style="margin: 1rem;">
+    <div style="display: flex; justify-content: end; margin-bottom: 1rem;">
+      <span>
+        User id -
+      </span>
+      <span id="userId"></span>
+    </div>
+    <div
+      style="display: flex; justify-content: center; flex-direction: column;"
+    >
+      <span>Enter other user is</span>
+      <input id="userIdToConnect" />
+      <button onclick="connect()">Connect</button>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>
