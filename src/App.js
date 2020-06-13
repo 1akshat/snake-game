@@ -15,7 +15,7 @@ class App extends React.Component {
       intermediate: false,
       expert: false,
       // Hardcoded positions of the snake-modules on init.
-      snakeCoordinates: [ [50,0], [50,3], [50,6] ],
+      snakeCoordinates: [[50, 0], [50, 3], [50, 6]],
       direction: 'Down',
       foodCoordinates: getRandomCoords(),
       score: 0
@@ -77,7 +77,7 @@ class App extends React.Component {
   }
 
 
-// Conditions for Game Over
+  // Conditions for Game Over
   snakeCrossBoundaries = () => {
     const snakeCoords = [...this.state.snakeCoordinates];
     let head = snakeCoords[snakeCoords.length - 1];
@@ -104,9 +104,9 @@ class App extends React.Component {
     let food = this.state.foodCoordinates;
     if (head[0] === food[0] && head[1] === food[1]) {
       // Update the state of the food
-      this.setState( { foodCoordinates: getRandomCoords() });
+      this.setState({ foodCoordinates: getRandomCoords() });
       // Update the score
-      this.setState( { score: this.state.score + 5 });
+      this.setState({ score: this.state.score + 5 });
       // Call function to increase the length of the snake
       this.increaseSnakeLength();
     }
@@ -130,7 +130,7 @@ class App extends React.Component {
       // Snake speed is in Milliseconds (ms).
       snakeSpeed: 100,
       // Hardcoded positions of the snake-modules on init.
-      snakeCoordinates: [ [50,0], [50,3], [50,6] ],
+      snakeCoordinates: [[50, 0], [50, 3], [50, 6]],
       direction: 'Down',
       foodCoordinates: getRandomCoords(),
       score: 0
@@ -139,15 +139,15 @@ class App extends React.Component {
 
   render() {
     return (
-        <React.Fragment>
-          <h1 className="main-title">{ this.props.title }</h1>
-          <LevelButton newBie={ this.state.newbie } intermediate={ this.state.intermediate } expert={ this.state.expert } moveSnake={ this.moveSnake }/>
-          <Score score={this.state.score}/>
-          <div className="game-window">
-            <Snake snakeCoordinates={ this.state.snakeCoordinates }/>
-            <Food foodCoordinates={ this.state.foodCoordinates }/>
-          </div>
-        </React.Fragment>
+      <React.Fragment>
+        <h1 className="main-title">{this.props.title}</h1>
+        <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
+        <Score score={this.state.score} />
+        <div className="game-window">
+          <Snake snakeCoordinates={this.state.snakeCoordinates} />
+          <Food foodCoordinates={this.state.foodCoordinates} />
+        </div>
+      </React.Fragment>
     )
   }
 }
