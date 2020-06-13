@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { Card, Button, Form } from 'react-bootstrap';
 import PlayGame from '../playGame/playGame';
+import UUID from '../../utils/uuid';
+import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
+
+const createSocketConnection = () => {
+  const webSocket = new WebSocket(SERVER_URL);
+  const user = { id: UUID() };
+  webSocket.onopen = () => {
+    // user is registered to back-end server
+    webSocket.send(JSON.stringify(user));
+    webSocket.addEventListener('message', (message) => {
+      // message.data will be used to recieve user objects
+      console.log(message);
+    });
+  };
+}
 
 const StartGame = () => {
   const [name, setName] = useState(null);
@@ -15,9 +30,10 @@ const StartGame = () => {
   const handleClick = () => {
     if (name) {
       setClick(true);
-      console.log('Click = ', click)
+      // create a connection with the server
+      createSocketConnection();
     } else {
-      alert('please provide a name before continuing.');
+      alert(NO_INPUT_ALERT_MESSAGE);
     }
   }
 
