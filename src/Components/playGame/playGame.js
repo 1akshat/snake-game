@@ -2,9 +2,8 @@ import React from 'react';
 import Snake from '../snake/snake';
 import Food from '../food/food';
 import Score from '../score/score';
-import LevelButton from '../levelButton/levelButton';
 import { getRandomCoords } from '../../utils/utils';
-import { SERVER_URL } from '../../utils/variables';
+import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
 import './style.css';
 
 const webSocket = new WebSocket(SERVER_URL);
@@ -35,6 +34,7 @@ class PlayGame extends React.Component {
   // Call on Init
   componentDidMount = () => {
     document.addEventListener("keydown", this._handleKeyDown);
+    setInterval(this.moveSnake, SNAKE_SPEED);
   }
 
   // // Call on each Update
@@ -48,7 +48,6 @@ class PlayGame extends React.Component {
   componentWillUnmount = () => {
     document.removeEventListener("keydown", this._handleKeyDown);
     document.removeEventListener("click", this._handleButtonClick);
-
   }
 
   _handleKeyDown = (event) => {
@@ -173,7 +172,6 @@ class PlayGame extends React.Component {
       <>
         <div className="row">
           <div className="col-md-10">
-            <LevelButton newBie={this.state.newbie} intermediate={this.state.intermediate} expert={this.state.expert} moveSnake={this.moveSnake} />
             <div className="game-window">
               <Snake snakeCoordinates={this.state.snakeCoordinates} />
               <Food foodCoordinates={this.state.foodCoordinates} />
