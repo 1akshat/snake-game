@@ -23,6 +23,7 @@ class PlayGame extends React.Component {
       newbie: false,
       intermediate: false,
       expert: false,
+      isGameRunning: false,
       // Hardcoded positions of the snake-modules on init.
       snakeCoordinates: [[50, 0], [50, 3], [50, 6]],
       direction: 'Down',
@@ -63,7 +64,17 @@ class PlayGame extends React.Component {
     }
   }
 
+  updateGameRunningState = (isGameRunningNow) => {
+    const isGameRunning = this.state.isGameRunning;
+
+    if (isGameRunning !== isGameRunningNow) {
+      // TODO: send data to server to update other users about status of this user game play
+      this.setState({ isGameRunning: isGameRunningNow });
+    }
+  }
+
   moveSnake = () => {
+    this.updateGameRunningState(true);
     const snakeCoords = [...this.state.snakeCoordinates];
     console.log('Sending.... ', snakeCoords);
     webSocket.send(JSON.stringify(snakeCoords));
@@ -131,6 +142,7 @@ class PlayGame extends React.Component {
 
 
   gameOver = () => {
+    this.updateGameRunningState(false);
     alert(`Game Over. Your Score is ${this.state.score}`);
     // Reset the snake coords
     this.setState({
