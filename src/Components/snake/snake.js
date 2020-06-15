@@ -77,11 +77,14 @@ const Snake = () => {
 
   useEffect(() => {
     document.addEventListener("keydown", _handleKeyDown);
-    setInterval(moveSnake, SNAKE_SPEED);
     return () => {
       document.removeEventListener("keydown", this._handleKeyDown);
     }
   }, [snakeCrossBoundaries(), snakeHitsItself(), snakeEatFood()]);
+
+  useEffect(() => {
+    setTimeout(moveSnake, SNAKE_SPEED);
+  }, [snakeCoordinates])
 
   const _handleKeyDown = (event) => {
     console.log(event);
@@ -126,9 +129,9 @@ const Snake = () => {
     snakeCoords.push(head);
     // Just remove the first element/ tail of the snake array just to interpret as snake is moving
     snakeCoords.shift();
-    currentSnakeCords = snakeCoords;
-    if (!isSameNumberArray(snakeCoordinates, currentSnakeCords)) {
-      setSnakeCoordinates(snakeCoords);
+    if (!isSameNumberArray(snakeCoords, currentSnakeCords)) {
+      currentSnakeCords = snakeCoords;
+      setSnakeCoordinates(snakeCoordinates.map((element, index) => snakeCoords[index]));
     }
   }
 
