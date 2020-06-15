@@ -8,20 +8,17 @@ import './style.css';
 
 const webSocket = new WebSocket(SERVER_URL);
 
-webSocket.onopen = () => {
-  webSocket.addEventListener('message', (coordinates) => {
-    console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
-  });
-};
+// webSocket.onopen = () => {
+//   webSocket.addEventListener('message', (coordinates) => {
+//     console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
+//   });
+// };
 
 class PlayGame extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      newbie: false,
-      intermediate: false,
-      expert: false,
       isGameRunning: false,
       // Hardcoded positions of the snake-modules on init.
       snakeCoordinates: [[50, 0], [50, 3], [50, 6]],
@@ -136,7 +133,7 @@ class PlayGame extends React.Component {
     const longSnakeCoordinates = [...this.state.snakeCoordinates];
     const newCoordinates = [];
     longSnakeCoordinates.unshift(newCoordinates);
-    this.setState({ snakeCoordinates: longSnakeCoordinates })
+    this.setState({ snakeCoordinates: longSnakeCoordinates });
   }
 
 
@@ -177,7 +174,6 @@ class PlayGame extends React.Component {
               <Food foodCoordinates={this.state.foodCoordinates} />
             </div>
           </div>
-          <h1 className="main-title">{this.props.title}</h1>
 
           {/* LEADERBOARD */}
           <div className="col-md-2">

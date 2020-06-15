@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { Card, Button, Form } from 'react-bootstrap';
 import PlayGame from '../playGame/playGame';
+import GameBoard from '../gameBoard/gameBoard';
 import { randomNumber } from '../../utils/number';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
 
@@ -43,7 +44,7 @@ const StartGame = () => {
 
   return (
     <>
-      {click ? <PlayGame name={name} uuid={uuid} players={players} /> :
+      {click ? <GameBoard /> :
         <div className="container">
           <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
             <Card.Header className="cardHeader">The Snake Game</Card.Header>
@@ -61,3 +62,6 @@ const StartGame = () => {
 }
 
 export default StartGame;
+
+
+// {click ? <PlayGame name={name} uuid={uuid} players={players} /> :

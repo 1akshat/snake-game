@@ -1,0 +1,7 @@
+.game-window {
+  height: 600px;
+  width: 600px;
+  position: relative;
+  margin: 50px auto;
+  border: 10px solid #000;
+}

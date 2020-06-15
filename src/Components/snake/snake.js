@@ -1,18 +1,166 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
+import { getRandomCoords } from '../../utils/utils';
+import './style.css';
 
-const Snake = ({ snakeCoordinates }) => {
+// const webSocket = new WebSocket(SERVER_URL);
+
+// webSocket.onopen = () => {
+//   webSocket.addEventListener('message', (coordinates) => {
+//     console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
+//   });
+// };
+
+const isSameNumberArray = (array1, array2) => {
+  console.log(array1, array2);
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  let result = true;
+
+  for (let looper = 0; looper < array1.length; looper++) {
+    for (let innerLooper = 0; innerLooper < array1[looper].length; innerLooper++) {
+      console.log('******************');
+      console.log(array1[looper][innerLooper], array2[looper][innerLooper]);
+      if (array1[looper][innerLooper] !== array2[looper][innerLooper]) {
+        result = false;
+        break;
+      }
+    }
+    if (result === false) {
+      break;
+    }
+  }
+  return result;
+}
+
+const Snake = () => {
+  const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);
+  const [snakeDirection, setSnakeDirection] = useState('Down');
+  const [isGameRunning, setIsGameRunning] = useState(false);
+  const [foodCoordinates, setFoodCoordinates] = useState(getRandomCoords());
+  let currentSnakeCords = [];
+
+  const snakeCrossBoundaries = () => {
+    const snakeCoords = [...snakeCoordinates];
+    let head = snakeCoords[snakeCoords.length - 1];
+    if (head[0] >= 97 || head[1] >= 97 || head[0] <= 1 || head[1] <= 1) {
+      gameOver();
+    }
+  }
+
+  const snakeHitsItself = () => {
+    const snakeCoords = [...snakeCoordinates];
+    let head = snakeCoords[snakeCoords.length - 1];
+    snakeCoords.pop();
+    snakeCoords.forEach(coords => {
+      if (coords[0] === head[0] && coords[1] === head[1]) {
+        gameOver();
+      }
+    })
+  }
+
+  const snakeEatFood = () => {
+    const snakeCoords = [...snakeCoordinates];
+    let head = snakeCoords[snakeCoords.length - 1];
+    let food = foodCoordinates;
+    if (head[0] === food[0] && head[1] === food[1]) {
+      // Update the state of the food
+      setFoodCoordinates(getRandomCoords());
+      // Update the score
+      this.setState({ score: this.state.score + 5 });
+      // Call function to increase the length of the snake
+      increaseSnakeLength();
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", _handleKeyDown);
+    setInterval(moveSnake, SNAKE_SPEED);
+    return () => {
+      document.removeEventListener("keydown", this._handleKeyDown);
+    }
+  }, [snakeCrossBoundaries(), snakeHitsItself(), snakeEatFood()]);
+
+  const _handleKeyDown = (event) => {
+    console.log(event);
+    if (event.keyCode === 37) {
+      setSnakeDirection('Left');
+    } else if (event.keyCode === 38) {
+      setSnakeDirection('Up');
+    } else if (event.keyCode === 39) {
+      setSnakeDirection('Right');
+    } else if (event.keyCode === 40) {
+      setSnakeDirection('Down');
+    }
+  }
+
+  const updateGameRunningState = (isGameRunningNow) => {
+    const gameRunning = isGameRunning;
+
+    if (gameRunning !== isGameRunningNow) {
+      // TODO: send data to server to update other users about status of this user game play
+      setIsGameRunning(isGameRunningNow);
+    }
+  }
+
+  const moveSnake = () => {
+    updateGameRunningState(true);
+    const snakeCoords = [...snakeCoordinates];
+    // console.log('Sending.... ', snakeCoords);
+    // webSocket.send(JSON.stringify(snakeCoords));
+    // Taking the last element as head
+    let head = snakeCoords[snakeCoords.length - 1];
+    const direction = snakeDirection;
+
+    if (direction === 'Left') {
+      head = [head[0] - 2, head[1]]
+    } else if (direction === 'Up') {
+      head = [head[0], head[1] - 2]
+    } else if (direction === 'Right') {
+      head = [head[0] + 2, head[1]]
+    } else if (direction === 'Down') {
+      head = [head[0], head[1] + 2]
+    }
+    snakeCoords.push(head);
+    // Just remove the first element/ tail of the snake array just to interpret as snake is moving
+    snakeCoords.shift();
+    currentSnakeCords = snakeCoords;
+    if (!isSameNumberArray(snakeCoordinates, currentSnakeCords)) {
+      setSnakeCoordinates(snakeCoords);
+    }
+  }
+
+  const increaseSnakeLength = () => {
+    const longSnakeCoordinates = [...snakeCoordinates];
+    const newCoordinates = [];
+    longSnakeCoordinates.unshift(newCoordinates);
+    setSnakeCoordinates(longSnakeCoordinates);
+  }
+
+  const gameOver = () => {
+    updateGameRunningState(false);
+    alert(`Game Over. Your Score is ${this.state.score}`);
+    // Reset the snake coords
+    setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
+    setSnakeDirection('Down');
+  }
+
   return (
-    <React.Fragment>
+    <>
       {
         snakeCoordinates.map((coords, key) => {
           const style = {
             left: `${coords[0]}%`,
             top: `${coords[1]}%`
           }
-          return (<div className="snake-module" style={style} key={key}></div>);
+          return (
+            <div className="snake-module" style={style} key={key}></div>
+          );
         })
       }
-    </React.Fragment>
+    </>
   );
 }
 

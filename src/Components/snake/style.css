@@ -1,0 +1,8 @@
+.snake-module {
+  height: 3%;
+  width: 3%;
+  position: absolute;
+  border: 1px solid #fff;
+  background-color: #b6b428;
+  z-index: 999;
+}

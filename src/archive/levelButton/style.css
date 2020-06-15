@@ -1,0 +1,28 @@
+.play-button {
+  text-align: center;
+  width: 200px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  font-size: 20px;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.play-button:hover {
+  background-color: #b6b428;
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.button-group {
+  text-align: center;
+  display: block;
+}
