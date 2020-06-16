@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { Card, Button, Form } from 'react-bootstrap';
-// import PlayGame from '../playGame/playGame';
 import GameBoard from '../gameBoard/gameBoard';
 import { randomNumber } from '../../utils/number';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';

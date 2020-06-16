@@ -1,7 +1,7 @@
 import React from 'react';
+import './style.css'
 
 const Food = ({ foodCoordinates }) => {
-  console.log(foodCoordinates)
   const style = {
     left: `${foodCoordinates[0]}%`,
     top: `${foodCoordinates[1]}%`
