@@ -3,7 +3,6 @@ import Score from '../score/score';
 import './style.css';
 
 const LeaderBoard = (props) => {
-  const score = 0;
   return (
     <>
       <div className="leaderboard-wrapper">
@@ -11,7 +10,7 @@ const LeaderBoard = (props) => {
           <p className="custom-padding">Player Name: <strong>{props.name}</strong></p>
           <p className="custom-padding">Game ID: <strong>{props.uuid}</strong></p>
           <div className="custom-padding">
-            <Score score={score} />
+            <Score score={props.score} />
           </div>
           <p className="custom-padding"><span className="dot"></span><strong> ONLINE PLAYERS</strong></p>
         </div>

@@ -35,10 +35,10 @@ const Snake = (props) => {
   const [snakeDirection, setSnakeDirection] = useState('Down');
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [score, setScore] = useState(0);
   let currentSnakeCords = [];
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
+  const [score, setScore] = [props.score, props.scoreSetter];
 
   const updateGameRunningState = (isGameRunningNow) => {
     const gameRunning = isGameRunning;
