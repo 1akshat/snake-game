@@ -1,6 +1,6 @@
 .snake-module {
-  height: 3%;
-  width: 3%;
+  height: 30px;
+  width: 30px;
   position: absolute;
   border: 1px solid #fff;
   background-color: #b6b428;
