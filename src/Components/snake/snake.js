@@ -34,7 +34,6 @@ const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
   const [isGameRunning, setIsGameRunning] = useState(false);
-  const [isGameOver, setIsGameOver] = useState(false);
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
   const [score, setScore] = [props.score, props.scoreSetter];
@@ -50,10 +49,10 @@ const Snake = (props) => {
 
   const gameOver = () => {
     props.setGameOver(true);
-    // updateGameRunningState(false);
+    updateGameRunningState(false);
     // Reset the snake coords
-    // setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
-    // setSnakeDirection('Down');
+    setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
+    setSnakeDirection('Down');
   }
 
   const snakeCrossBoundaries = () => {
@@ -125,16 +124,17 @@ const Snake = (props) => {
     return () => {
       document.removeEventListener("keydown", _handleKeyDown);
     }
-  }, [snakeHitsItself()]);
+  });
 
   useEffect(() => {
     snakeCrossBoundaries();
+    snakeHitsItself();
     snakeEatFood();
     const timerId = window.setTimeout(() => moveSnake(), SNAKE_SPEED);
     return () => {
       window.clearTimeout(timerId);
     }
-  }, [moveSnake, snakeCoordinates, snakeEatFood, snakeCrossBoundaries]);
+  }, [moveSnake, snakeCoordinates, snakeEatFood, snakeCrossBoundaries, snakeHitsItself]);
 
   const _handleKeyDown = (event) => {
     if (event.keyCode === 37) {

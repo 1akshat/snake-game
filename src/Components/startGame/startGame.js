@@ -36,6 +36,7 @@ const StartGame = () => {
   const handleClick = () => {
     if (name) {
       setClick(true);
+      setIsGameOver(false);
       // create a connection with the server
       createSocketConnection();
     } else {
