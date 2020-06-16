@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
 import { getRandomCoords } from '../../utils/utils';
 import './style.css';
@@ -12,17 +12,12 @@ import './style.css';
 // };
 
 const isSameNumberArray = (array1, array2) => {
-  console.log(array1, array2);
   if (array1.length !== array2.length) {
     return false;
   }
-
   let result = true;
-
   for (let looper = 0; looper < array1.length; looper++) {
     for (let innerLooper = 0; innerLooper < array1[looper].length; innerLooper++) {
-      console.log('******************');
-      console.log(array1[looper][innerLooper], array2[looper][innerLooper]);
       if (array1[looper][innerLooper] !== array2[looper][innerLooper]) {
         result = false;
         break;
@@ -35,12 +30,32 @@ const isSameNumberArray = (array1, array2) => {
   return result;
 }
 
-const Snake = () => {
+const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
   const [isGameRunning, setIsGameRunning] = useState(false);
-  const [foodCoordinates, setFoodCoordinates] = useState(getRandomCoords());
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
   let currentSnakeCords = [];
+
+  const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
+
+  const updateGameRunningState = (isGameRunningNow) => {
+    const gameRunning = isGameRunning;
+
+    if (gameRunning !== isGameRunningNow) {
+      // TODO: send data to server to update other users about status of this user game play
+      setIsGameRunning(isGameRunningNow);
+    }
+  }
+
+  const gameOver = () => {
+    setIsGameOver(true);
+    updateGameRunningState(false);
+    // Reset the snake coords
+    setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
+    setSnakeDirection('Down');
+  }
 
   const snakeCrossBoundaries = () => {
     const snakeCoords = [...snakeCoordinates];
@@ -64,30 +79,41 @@ const Snake = () => {
   const snakeEatFood = () => {
     const snakeCoords = [...snakeCoordinates];
     let head = snakeCoords[snakeCoords.length - 1];
-    let food = foodCoordinates;
+    let food = foodCoords;
     if (head[0] === food[0] && head[1] === food[1]) {
       // Update the state of the food
-      setFoodCoordinates(getRandomCoords());
+      // setFoodCoords(getRandomCoords());
       // Update the score
-      this.setState({ score: this.state.score + 5 });
+      setScore(score + 5);
       // Call function to increase the length of the snake
       increaseSnakeLength();
     }
   }
 
+  const increaseSnakeLength = () => {
+    const longSnakeCoordinates = [...snakeCoordinates];
+    const newCoordinates = [];
+    longSnakeCoordinates.unshift(newCoordinates);
+    setSnakeCoordinates(longSnakeCoordinates);
+  }
+
   useEffect(() => {
+    console.log('1')
     document.addEventListener("keydown", _handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", this._handleKeyDown);
+      document.removeEventListener("keydown", _handleKeyDown);
     }
   }, [snakeCrossBoundaries(), snakeHitsItself(), snakeEatFood()]);
 
   useEffect(() => {
-    setTimeout(moveSnake, SNAKE_SPEED);
-  }, [snakeCoordinates])
+    console.log('2')
+    const timerId = setTimeout(() => moveSnake(), SNAKE_SPEED);
+    return () => {
+      clearTimeout(timerId);
+    }
+  }, [snakeCoordinates]);
 
   const _handleKeyDown = (event) => {
-    console.log(event);
     if (event.keyCode === 37) {
       setSnakeDirection('Left');
     } else if (event.keyCode === 38) {
@@ -96,15 +122,6 @@ const Snake = () => {
       setSnakeDirection('Right');
     } else if (event.keyCode === 40) {
       setSnakeDirection('Down');
-    }
-  }
-
-  const updateGameRunningState = (isGameRunningNow) => {
-    const gameRunning = isGameRunning;
-
-    if (gameRunning !== isGameRunningNow) {
-      // TODO: send data to server to update other users about status of this user game play
-      setIsGameRunning(isGameRunningNow);
     }
   }
 
@@ -129,25 +146,12 @@ const Snake = () => {
     snakeCoords.push(head);
     // Just remove the first element/ tail of the snake array just to interpret as snake is moving
     snakeCoords.shift();
-    if (!isSameNumberArray(snakeCoords, currentSnakeCords)) {
-      currentSnakeCords = snakeCoords;
-      setSnakeCoordinates(snakeCoordinates.map((element, index) => snakeCoords[index]));
-    }
-  }
-
-  const increaseSnakeLength = () => {
-    const longSnakeCoordinates = [...snakeCoordinates];
-    const newCoordinates = [];
-    longSnakeCoordinates.unshift(newCoordinates);
-    setSnakeCoordinates(longSnakeCoordinates);
-  }
-
-  const gameOver = () => {
-    updateGameRunningState(false);
-    alert(`Game Over. Your Score is ${this.state.score}`);
-    // Reset the snake coords
-    setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
-    setSnakeDirection('Down');
+    // if (!isSameNumberArray(snakeCoords, currentSnakeCords)) {
+    // console.log(snakeCoordinates);
+    // currentSnakeCords = snakeCoords;
+    setSnakeCoordinates(snakeCoordinates.map((element, index) => snakeCoords[index]));
+    // setSnakeCoordinates(snakeCoords);
+    // }
   }
 
   return (

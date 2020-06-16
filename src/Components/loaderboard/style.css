@@ -1,0 +1,46 @@
+.leaderboard-wrapper {
+    background-color: #000;
+    color: #fff;
+    max-height: 800px;
+    margin-top: 20px;
+    margin-right: 30px;
+    overflow: auto;
+}
+
+.table {
+    color: #fff;
+    text-align: center;
+}
+
+.custom-padding {
+    padding: 3px;
+}
+
+.para-wrapper {
+    padding-top: 10px;
+    text-align: center;
+}
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: hsl(59, 64%, 44%);
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: hsl(59, 64%, 44%);
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(59, 64%, 44%);
+}
