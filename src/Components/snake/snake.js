@@ -35,7 +35,6 @@ const Snake = (props) => {
   const [snakeDirection, setSnakeDirection] = useState('Down');
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  let currentSnakeCords = [];
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
   const [score, setScore] = [props.score, props.scoreSetter];
@@ -50,11 +49,11 @@ const Snake = (props) => {
   }
 
   const gameOver = () => {
-    setIsGameOver(true);
-    updateGameRunningState(false);
+    props.setGameOver(true);
+    // updateGameRunningState(false);
     // Reset the snake coords
-    setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
-    setSnakeDirection('Down');
+    // setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
+    // setSnakeDirection('Down');
   }
 
   const snakeCrossBoundaries = () => {
@@ -118,12 +117,7 @@ const Snake = (props) => {
     snakeCoords.push(head);
     // Just remove the first element/ tail of the snake array just to interpret as snake is moving
     snakeCoords.shift();
-    // if (!isSameNumberArray(snakeCoords, currentSnakeCords)) {
-    // console.log(snakeCoordinates);
-    // currentSnakeCords = snakeCoords;
-    setSnakeCoordinates(snakeCoordinates.map((element, index) => snakeCoords[index]));
-    // setSnakeCoordinates(snakeCoords);
-    // }
+    setSnakeCoordinates(snakeCoordinates.map((_element, index) => snakeCoords[index]));
   }
 
   useEffect(() => {
@@ -131,15 +125,16 @@ const Snake = (props) => {
     return () => {
       document.removeEventListener("keydown", _handleKeyDown);
     }
-  }, [snakeCrossBoundaries(), snakeHitsItself()]);
+  }, [snakeHitsItself()]);
 
   useEffect(() => {
+    snakeCrossBoundaries();
     snakeEatFood();
     const timerId = window.setTimeout(() => moveSnake(), SNAKE_SPEED);
     return () => {
       window.clearTimeout(timerId);
     }
-  }, [moveSnake, snakeCoordinates, snakeEatFood]);
+  }, [moveSnake, snakeCoordinates, snakeEatFood, snakeCrossBoundaries]);
 
   const _handleKeyDown = (event) => {
     if (event.keyCode === 37) {
