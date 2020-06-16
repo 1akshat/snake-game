@@ -82,7 +82,7 @@ const Snake = (props) => {
     let food = foodCoords;
     if (head[0] === food[0] && head[1] === food[1]) {
       // Update the state of the food
-      // setFoodCoords(getRandomCoords());
+      setFoodCoords(getRandomCoords());
       // Update the score
       setScore(score + 5);
       // Call function to increase the length of the snake
@@ -95,34 +95,6 @@ const Snake = (props) => {
     const newCoordinates = [];
     longSnakeCoordinates.unshift(newCoordinates);
     setSnakeCoordinates(longSnakeCoordinates);
-  }
-
-  useEffect(() => {
-    console.log('1')
-    document.addEventListener("keydown", _handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", _handleKeyDown);
-    }
-  }, [snakeCrossBoundaries(), snakeHitsItself(), snakeEatFood()]);
-
-  useEffect(() => {
-    console.log('2')
-    const timerId = setTimeout(() => moveSnake(), SNAKE_SPEED);
-    return () => {
-      clearTimeout(timerId);
-    }
-  }, [snakeCoordinates]);
-
-  const _handleKeyDown = (event) => {
-    if (event.keyCode === 37) {
-      setSnakeDirection('Left');
-    } else if (event.keyCode === 38) {
-      setSnakeDirection('Up');
-    } else if (event.keyCode === 39) {
-      setSnakeDirection('Right');
-    } else if (event.keyCode === 40) {
-      setSnakeDirection('Down');
-    }
   }
 
   const moveSnake = () => {
@@ -153,6 +125,34 @@ const Snake = (props) => {
     // setSnakeCoordinates(snakeCoords);
     // }
   }
+
+  useEffect(() => {
+    document.addEventListener("keydown", _handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", _handleKeyDown);
+    }
+  }, [snakeCrossBoundaries(), snakeHitsItself()]);
+
+  useEffect(() => {
+    snakeEatFood();
+    const timerId = window.setTimeout(() => moveSnake(), SNAKE_SPEED);
+    return () => {
+      window.clearTimeout(timerId);
+    }
+  }, [moveSnake, snakeCoordinates, snakeEatFood]);
+
+  const _handleKeyDown = (event) => {
+    if (event.keyCode === 37) {
+      setSnakeDirection('Left');
+    } else if (event.keyCode === 38) {
+      setSnakeDirection('Up');
+    } else if (event.keyCode === 39) {
+      setSnakeDirection('Right');
+    } else if (event.keyCode === 40) {
+      setSnakeDirection('Down');
+    }
+  }
+
 
   return (
     <>
