@@ -34,23 +34,12 @@ const isSameNumberArray = (array1, array2) => {
 const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
-  const [isGameRunning, setIsGameRunning] = useState(false);
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
   const [score, setScore] = [props.score, props.scoreSetter];
 
-  const updateGameRunningState = (isGameRunningNow) => {
-    const gameRunning = isGameRunning;
-
-    if (gameRunning !== isGameRunningNow) {
-      // TODO: send data to server to update other users about status of this user game play
-      setIsGameRunning(isGameRunningNow);
-    }
-  }
-
   const gameOver = () => {
     props.setGameOver(true);
-    updateGameRunningState(false);
     // Reset the snake coords
     setSnakeCoordinates([50, 0], [50, 3], [50, 6]);
     setSnakeDirection('Down');
@@ -97,7 +86,6 @@ const Snake = (props) => {
   }
 
   const moveSnake = () => {
-    updateGameRunningState(true);
     const snakeCoords = [...snakeCoordinates];
     // console.log('Sending.... ', snakeCoords);
     // webSocket.send(JSON.stringify(snakeCoords));
