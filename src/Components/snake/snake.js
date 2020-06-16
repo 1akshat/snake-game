@@ -151,9 +151,7 @@ const Snake = (props) => {
 
   return (
     <>
-      {isGameOver ?
-        <GameOver />
-        :
+      {
         snakeCoordinates.map((coords, key) => {
           const style = {
             left: `${coords[0]}%`,
