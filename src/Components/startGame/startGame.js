@@ -11,6 +11,7 @@ const StartGame = () => {
   const [click, setClick] = useState(false);
   const [uuid, setUuid] = useState(null);
   const [players, setPlayers] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const createSocketConnection = () => {
     const webSocket = new WebSocket(SERVER_URL);
@@ -43,7 +44,7 @@ const StartGame = () => {
 
   return (
     <>
-      {click ? <GameBoard name={name} uuid={uuid} players={players} /> :
+      {(click && !isGameOver) ? <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} /> :
         <div className="container">
           <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
             <Card.Header className="cardHeader">The Snake Game</Card.Header>

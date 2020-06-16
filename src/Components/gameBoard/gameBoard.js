@@ -14,7 +14,7 @@ const GameBoard = (props) => {
       <div className="row">
         <div className="col-md-10">
           <div className="game-window">
-            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} />
+            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} setGameOver={props.setGameOver} />
             <Food foodCoordinates={foodCoords} />
           </div>
         </div>
