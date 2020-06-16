@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
 import { getRandomCoords } from '../../utils/utils';
 import './style.css';
-import GameOver from '../gameOver/gameOver';
 
 const webSocket = new WebSocket(SERVER_URL);
 
@@ -11,25 +10,6 @@ webSocket.onopen = () => {
     console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
   });
 };
-
-const isSameNumberArray = (array1, array2) => {
-  if (array1.length !== array2.length) {
-    return false;
-  }
-  let result = true;
-  for (let looper = 0; looper < array1.length; looper++) {
-    for (let innerLooper = 0; innerLooper < array1[looper].length; innerLooper++) {
-      if (array1[looper][innerLooper] !== array2[looper][innerLooper]) {
-        result = false;
-        break;
-      }
-    }
-    if (result === false) {
-      break;
-    }
-  }
-  return result;
-}
 
 const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);

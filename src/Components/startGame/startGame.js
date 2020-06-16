@@ -45,7 +45,9 @@ const StartGame = () => {
 
   return (
     <>
-      {(click && !isGameOver) ? <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} /> :
+      {(click && !isGameOver) ?
+        <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} />
+        :
         <div className="container">
           <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
             <Card.Header className="cardHeader">The Snake Game</Card.Header>
@@ -63,6 +65,3 @@ const StartGame = () => {
 }
 
 export default StartGame;
-
-
-// {click ? <PlayGame name={name} uuid={uuid} players={players} /> :
