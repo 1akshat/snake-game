@@ -1,7 +1,7 @@
 import React from 'react';
-import Snake from '../snake/snake';
-import Food from '../food/food';
-import Score from '../score/score';
+import Snake from '../../Components/snake/snake';
+import Food from '../../Components/food/food';
+import Score from '../../Components/score/score';
 import { getRandomCoords } from '../../utils/utils';
 import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
 import './style.css';
