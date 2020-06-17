@@ -12,7 +12,7 @@ webSocket.onopen = () => {
 };
 
 const Snake = (props) => {
-  const [snakeCoordinates, setSnakeCoordinates] = useState([[50, 0], [50, 3], [50, 6]]);
+  const [snakeCoordinates, setSnakeCoordinates] = useState(props.coords || [[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
