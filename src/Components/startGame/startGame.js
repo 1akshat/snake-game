@@ -21,11 +21,11 @@ const StartGame = () => {
       setWs(webSocket);
     }
 
-    webSocket.onopen = () => {
+    webSocket.addEventListener('open', () => {
       console.log("connected websocket main component");
       // user is registered to back-end server
       webSocket.send(JSON.stringify(user));
-    };
+    });
 
     webSocket.onerror = (err) => {
       console.error(
@@ -39,15 +39,17 @@ const StartGame = () => {
 
   useEffect(() => {
     if (ws !== undefined) {
-      ws.addEventListener('message', (message) => {
-        // message.data will be used to recieve user objects
-        const allPlayersObject = JSON.parse(message.data);
-        setPlayers(allPlayersObject);
-        setUuid(user.id);
-      });
+      ws.addEventListener('message', setPlayer);
     }
+  }, [ws]);
 
-  })
+  const setPlayer = (message) => {
+    // message.data will be used to recieve user objects
+    const allPlayersObject = JSON.parse(message.data);
+    setPlayers(allPlayersObject);
+    setUuid(user.id);
+    ws.removeEventListener('message', setPlayer);
+  }
 
   const handleChange = (event) => {
     setName(event.target.value);

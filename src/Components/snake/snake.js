@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
+import React, { useEffect, useState } from 'react';
 import { getRandomCoords } from '../../utils/utils';
+import { SNAKE_SPEED } from '../../utils/variables';
 import './style.css';
-
 const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState(props.coords || [[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
@@ -94,6 +93,12 @@ const Snake = (props) => {
     setSnakeCoordinates(snakeCoordinates.map((_element, index) => snakeCoords[index]));
   }
 
+  const sendCoordsToServer = () => {
+    if (webSocket !== undefined && webSocket.readyState === webSocket.OPEN) {
+      webSocket.send(JSON.stringify({ id: props.uuid, snakeCoords: snakeCoordinates }));
+    }
+  }
+
   useEffect(() => {
     document.addEventListener("keydown", _handleKeyDown);
     return () => {
@@ -101,7 +106,9 @@ const Snake = (props) => {
     }
   });
 
+
   useEffect(() => {
+    sendCoordsToServer();
     snakeCrossBoundaries();
     snakeHitsItself();
     snakeEatFood();

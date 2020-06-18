@@ -14,10 +14,10 @@ const GameBoard = (props) => {
   const otherUsersID = props.usersID || [];
 
   useEffect(() => {
-    if (webSocket !== undefined) {
-      webSocket.addEventListener('message', updateOtherUsersData);
-      return closeWebSocket;
-    }
+    // if (webSocket !== undefined) {
+    //   webSocket.addEventListener('message', updateOtherUsersData);
+    //   // return closeWebSocket;
+    // }
   })
 
   const closeWebSocket = () => {
