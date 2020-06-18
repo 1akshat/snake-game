@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getRandomCoords } from '../../utils/utils';
-import { SERVER_URL } from '../../utils/variables';
 import Food from '../food/food';
 import LeaderBoard from '../loaderboard/loaderboard';
 import Snake from '../snake/snake';
@@ -10,15 +9,15 @@ const GameBoard = (props) => {
   const [foodCoords, setFoodCoords] = useState(getRandomCoords());
   const [score, setScore] = useState(0);
   const [otherUsersSnake, setOtherUsersSnake] = useState(null);
-
-  const webSocket = new WebSocket(SERVER_URL);
-  // const currentUser = registerUser(webSocket);
+  const webSocket = props.socket;
 
   const otherUsersID = props.usersID || [];
 
   useEffect(() => {
-    webSocket.addEventListener('message', updateOtherUsersData);
-    return closeWebSocket;
+    if (webSocket !== undefined) {
+      webSocket.addEventListener('message', updateOtherUsersData);
+      return closeWebSocket;
+    }
   })
 
   const closeWebSocket = () => {
@@ -44,7 +43,7 @@ const GameBoard = (props) => {
       <div className="row">
         <div className="col-md-10">
           <div className="game-window">
-            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} setGameOver={props.setGameOver} players={props.players} uuid={props.uuid} socket={props.socket} />
+            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} setGameOver={props.setGameOver} players={props.players} uuid={props.uuid} socket={webSocket} />
             {
               otherUsersSnake &&
               otherUsersSnake.map(snake => <Snake coords={snake.coords} />)

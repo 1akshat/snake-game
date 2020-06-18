@@ -11,11 +11,11 @@ const Snake = (props) => {
   const [score, setScore] = [props.score, props.scoreSetter];
   const socket = props.socket;
 
-  socket.onopen = () => {
+  if (socket !== undefined) {
     socket.addEventListener('message', (coordinates) => {
       console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
     });
-  };
+  }
 
   const removePlayerFromPlayersArray = () => {
     socket.send(JSON.stringify({ playerIdToRemove: props.uuid }));
@@ -23,7 +23,9 @@ const Snake = (props) => {
 
   const gameOver = () => {
     console.log('GAME OVER')
-    removePlayerFromPlayersArray();
+    if (socket !== undefined) {
+      removePlayerFromPlayersArray();
+    }
     props.setGameOver(true);
     // Reset the snake coords
     setSnakeCoordinates([50, 0], [50, 3], [50, 6]);

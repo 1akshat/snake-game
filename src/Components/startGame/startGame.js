@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
 import { Card, Button, Form } from 'react-bootstrap';
 import GameBoard from '../gameBoard/gameBoard';
 import { randomNumber } from '../../utils/number';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
-let webSocket;
 
 const StartGame = () => {
   const [name, setName] = useState(null);
@@ -13,20 +12,26 @@ const StartGame = () => {
   const [uuid, setUuid] = useState(null);
   const [players, setPlayers] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const user = { id: randomNumber(6), name: name };
+  let webSocket;
 
   const createSocketConnection = () => {
     webSocket = new WebSocket(SERVER_URL);
-    const user = { id: randomNumber(6), name: name };
+
     webSocket.onopen = () => {
+      console.log("connected websocket main component");
       // user is registered to back-end server
       webSocket.send(JSON.stringify(user));
-      webSocket.addEventListener('message', (message) => {
-        // message.data will be used to recieve user objects
-        const allPlayersObject = JSON.parse(message.data);
-        setPlayers(allPlayersObject);
-        setUuid(user.id);
-      });
     };
+
+    webSocket.onerror = (err) => {
+      console.error(
+        "Socket encountered error: ",
+        err.message,
+        "Closing socket"
+      );
+      webSocket.close();
+    }
   }
 
   const handleChange = (event) => {
@@ -39,6 +44,12 @@ const StartGame = () => {
       setIsGameOver(false);
       // create a connection with the server
       createSocketConnection();
+      webSocket.addEventListener('message', (message) => {
+        // message.data will be used to recieve user objects
+        const allPlayersObject = JSON.parse(message.data);
+        setPlayers(allPlayersObject);
+        setUuid(user.id);
+      });
     } else {
       alert(NO_INPUT_ALERT_MESSAGE);
     }

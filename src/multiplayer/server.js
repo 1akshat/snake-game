@@ -4,6 +4,7 @@ const { addUpdateUser, removeUser, getAllUsers } = require('./user');
 const server = new WS.Server({ port: 8080 });
 
 server.on('connection', (webSocket) => {
+    console.log('Connection Made');
     webSocket.on('message', (message) => {
         console.log('Received: ', message);
         const clientUser = JSON.parse(message);
