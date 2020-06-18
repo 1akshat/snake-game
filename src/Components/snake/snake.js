@@ -9,21 +9,20 @@ const Snake = (props) => {
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
   const [score, setScore] = [props.score, props.scoreSetter];
-  const socket = props.socket;
+  const webSocket = props.socket;
 
-  if (socket !== undefined) {
-    socket.addEventListener('message', (coordinates) => {
+  if (webSocket !== undefined) {
+    webSocket.addEventListener('message', (coordinates) => {
       console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
     });
   }
 
   const removePlayerFromPlayersArray = () => {
-    socket.send(JSON.stringify({ playerIdToRemove: props.uuid }));
+    webSocket.send(JSON.stringify({ playerIdToRemove: props.uuid }));
   }
 
   const gameOver = () => {
-    console.log('GAME OVER')
-    if (socket !== undefined) {
+    if (webSocket !== undefined) {
       removePlayerFromPlayersArray();
     }
     props.setGameOver(true);

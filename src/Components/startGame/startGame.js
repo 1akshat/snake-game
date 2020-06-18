@@ -13,10 +13,13 @@ const StartGame = () => {
   const [players, setPlayers] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const user = { id: randomNumber(6), name: name };
-  let webSocket;
+  const [ws, setWs] = useState(undefined);
 
   const createSocketConnection = () => {
-    webSocket = new WebSocket(SERVER_URL);
+    const webSocket = new WebSocket(SERVER_URL);
+    if (ws !== null) {
+      setWs(webSocket);
+    }
 
     webSocket.onopen = () => {
       console.log("connected websocket main component");
@@ -34,6 +37,18 @@ const StartGame = () => {
     }
   }
 
+  useEffect(() => {
+    if (ws !== undefined) {
+      ws.addEventListener('message', (message) => {
+        // message.data will be used to recieve user objects
+        const allPlayersObject = JSON.parse(message.data);
+        setPlayers(allPlayersObject);
+        setUuid(user.id);
+      });
+    }
+
+  })
+
   const handleChange = (event) => {
     setName(event.target.value);
   }
@@ -44,12 +59,7 @@ const StartGame = () => {
       setIsGameOver(false);
       // create a connection with the server
       createSocketConnection();
-      webSocket.addEventListener('message', (message) => {
-        // message.data will be used to recieve user objects
-        const allPlayersObject = JSON.parse(message.data);
-        setPlayers(allPlayersObject);
-        setUuid(user.id);
-      });
+
     } else {
       alert(NO_INPUT_ALERT_MESSAGE);
     }
@@ -59,7 +69,7 @@ const StartGame = () => {
     <>
       {
         (click && !isGameOver) ?
-          <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} socket={webSocket} />
+          <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} socket={ws} />
           :
           <div className="container">
             <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
