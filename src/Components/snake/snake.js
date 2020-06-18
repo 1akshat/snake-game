@@ -3,22 +3,27 @@ import { SERVER_URL, SNAKE_SPEED } from '../../utils/variables';
 import { getRandomCoords } from '../../utils/utils';
 import './style.css';
 
-const webSocket = new WebSocket(SERVER_URL);
-
-webSocket.onopen = () => {
-  webSocket.addEventListener('message', (coordinates) => {
-    console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
-  });
-};
-
 const Snake = (props) => {
   const [snakeCoordinates, setSnakeCoordinates] = useState(props.coords || [[50, 0], [50, 3], [50, 6]]);
   const [snakeDirection, setSnakeDirection] = useState('Down');
 
   const [foodCoords, setFoodCoords] = [props.foodCoords, props.foodCoordsSetter];
   const [score, setScore] = [props.score, props.scoreSetter];
+  const socket = props.socket;
+
+  socket.onopen = () => {
+    socket.addEventListener('message', (coordinates) => {
+      console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
+    });
+  };
+
+  const removePlayerFromPlayersArray = () => {
+    socket.send(JSON.stringify({ playerIdToRemove: props.uuid }));
+  }
 
   const gameOver = () => {
+    console.log('GAME OVER')
+    removePlayerFromPlayersArray();
     props.setGameOver(true);
     // Reset the snake coords
     setSnakeCoordinates([50, 0], [50, 3], [50, 6]);

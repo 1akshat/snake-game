@@ -5,16 +5,6 @@ import Food from '../food/food';
 import LeaderBoard from '../loaderboard/loaderboard';
 import Snake from '../snake/snake';
 import './style.css';
-const { randomString } = require('../../string-utility');
-
-
-const registerUser = (webSocket) => {
-  const user = { id: randomString() };
-  webSocket.onopen = () => {
-    webSocket.send(JSON.stringify(user));
-  }
-  return user;
-}
 
 const GameBoard = (props) => {
   const [foodCoords, setFoodCoords] = useState(getRandomCoords());
@@ -22,7 +12,7 @@ const GameBoard = (props) => {
   const [otherUsersSnake, setOtherUsersSnake] = useState(null);
 
   const webSocket = new WebSocket(SERVER_URL);
-  const currentUser = registerUser(webSocket);
+  // const currentUser = registerUser(webSocket);
 
   const otherUsersID = props.usersID || [];
 
@@ -54,7 +44,7 @@ const GameBoard = (props) => {
       <div className="row">
         <div className="col-md-10">
           <div className="game-window">
-            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} setGameOver={props.setGameOver} />
+            <Snake foodCoords={foodCoords} foodCoordsSetter={setFoodCoords} score={score} scoreSetter={setScore} setGameOver={props.setGameOver} players={props.players} uuid={props.uuid} socket={props.socket} />
             {
               otherUsersSnake &&
               otherUsersSnake.map(snake => <Snake coords={snake.coords} />)

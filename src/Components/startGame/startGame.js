@@ -5,6 +5,7 @@ import { Card, Button, Form } from 'react-bootstrap';
 import GameBoard from '../gameBoard/gameBoard';
 import { randomNumber } from '../../utils/number';
 import { SERVER_URL, NO_INPUT_ALERT_MESSAGE } from '../../utils/variables';
+let webSocket;
 
 const StartGame = () => {
   const [name, setName] = useState(null);
@@ -14,7 +15,7 @@ const StartGame = () => {
   const [isGameOver, setIsGameOver] = useState(false);
 
   const createSocketConnection = () => {
-    const webSocket = new WebSocket(SERVER_URL);
+    webSocket = new WebSocket(SERVER_URL);
     const user = { id: randomNumber(6), name: name };
     webSocket.onopen = () => {
       // user is registered to back-end server
@@ -45,20 +46,21 @@ const StartGame = () => {
 
   return (
     <>
-      {(click && !isGameOver) ?
-        <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} />
-        :
-        <div className="container">
-          <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
-            <Card.Header className="cardHeader">The Snake Game</Card.Header>
-            <Card.Body>
-              <Card.Text>
-                <Form.Control type="text" placeholder="PLAYER NAME" style={{ width: '300px', textAlign: 'center', display: 'block', margin: '0 auto', marginBottom: '20px' }} onChange={handleChange} />
-                <Button variant="outline-primary" className="start-button" onClick={handleClick}>Play</Button>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </div>
+      {
+        (click && !isGameOver) ?
+          <GameBoard name={name} uuid={uuid} players={players} setGameOver={setIsGameOver} socket={webSocket} />
+          :
+          <div className="container">
+            <Card border="dark" style={{ width: '40rem' }} className="cardWrapper">
+              <Card.Header className="cardHeader">The Snake Game</Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  <Form.Control type="text" placeholder="PLAYER NAME" style={{ width: '300px', textAlign: 'center', display: 'block', margin: '0 auto', marginBottom: '20px' }} onChange={handleChange} />
+                  <Button variant="outline-primary" className="start-button" onClick={handleClick}>Play</Button>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </div>
       }
     </>
   )
