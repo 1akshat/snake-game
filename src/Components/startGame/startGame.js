@@ -12,8 +12,10 @@ const StartGame = () => {
   const [uuid, setUuid] = useState(null);
   const [players, setPlayers] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  const user = { id: randomNumber(6), name: name };
   const [ws, setWs] = useState(undefined);
+
+  const user = { id: window.sessionStorage.getItem('userID') || randomNumber(6), name: name };
+  window.sessionStorage.setItem('userID', user.id);
 
   const createSocketConnection = () => {
     const webSocket = new WebSocket(SERVER_URL);
