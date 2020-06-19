@@ -1,11 +1,9 @@
-// import isNumber from 'ecmascript-is-number';
-// const isNumber = require('ecmascript-is-number');
-const is = require('is');
+const isNumber = require('ecmascript-is-number');
 
 const users = [];
 
 const addUpdateUser = (clientUserObject) => {
-  if (!is.number(clientUserObject.id)) {
+  if (!isNumber(clientUserObject.id)) {
     return;
   }
   const indexOfIncomingUser = users.findIndex(user => user.id === clientUserObject.id);
@@ -14,12 +12,16 @@ const addUpdateUser = (clientUserObject) => {
     ...clientUserObject,
     lastActiveTime: new Date().toISOString()
   };
+
+  console.log(isNewUser);
+  console.log(users);
   if (isNewUser) {
     users.push(currentUser);
   } else {
     users.splice(indexOfIncomingUser, 1);
     users.push(currentUser);
   }
+  console.log(users);
   return currentUser;
 }
 

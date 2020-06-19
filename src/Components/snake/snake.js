@@ -12,7 +12,7 @@ const Snake = (props) => {
 
   if (webSocket !== undefined) {
     webSocket.addEventListener('message', (coordinates) => {
-      console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
+      // console.log('Coordinates RECEIVED', JSON.parse(coordinates.data));
     });
   }
 

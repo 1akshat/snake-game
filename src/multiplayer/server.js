@@ -14,8 +14,11 @@ server.on('connection', (webSocket) => {
         }
         // forward details of user back to all web sockets opened in browser
         // exaple - User 2 detail is here. it will be sent to User 1. And User 1 will update snake game accordingly
+
         server.clients.forEach((client) => {
+            console.log('--- inside server clients foreach ---');
             if (client !== server && client.readyState === WS.OPEN) {
+                console.log('--- inside conditional statement to send info to clients ---');
                 client.send(JSON.stringify(getAllUsers()));
             }
         });
